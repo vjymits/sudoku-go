@@ -8,9 +8,9 @@ import (
 )
 
 type Sudoku struct {
-	a [9][9]int
-	K int
-	ans [9][9]int
+	A [9][9]int		`json:"puzzle"`
+	K int			`json:"level"`
+	Ans [9][9]int	`json:"ans"`
 }
 
 /* 
@@ -19,7 +19,7 @@ Construct Sudoku object
 func New() *Sudoku {
 	s := &Sudoku{K:40}
 	// Assigning seed sudoku 
-	s.a = s.Seed()
+	s.A = s.Seed()
 	return s
 }
 /*
@@ -46,15 +46,15 @@ func (s *Sudoku ) fillZeros() {
 		
 	}
 	// Before filling zeros save answer
-	s.ans = s.a
+	s.Ans = s.A
 	i = s.K
 	for i > 0 {
 		rand.Seed(time.Now().UnixNano())
 		row := rand.Intn(10000)%9
 		col := rand.Intn(10000)%9
 		
-		if s.a[row][col] != 0 {
-			s.a[row][col] = 0
+		if s.A[row][col] != 0 {
+			s.A[row][col] = 0
 			i--
 		}		
 	}
@@ -89,22 +89,22 @@ func (s *Sudoku) swapping(num int) {
 Print sudoku on default console.
 */
 func (s *Sudoku) Print() {
-	printMat(s.a)
+	printMat(s.A)
 	
 }
 // Print the answer
 func (s *Sudoku) PrintAns() {
-	printMat(s.ans)
+	printMat(s.Ans)
 	
 }
 
 
-func printMat(a [9][9]int) {
+func printMat(A [9][9]int) {
 
 	for r := 0; r < 9; r++ {
 		
 		for c := 0; c < 9; c++ {
-			fmt.Printf("%d, ", a[r][c])
+			fmt.Printf("%d, ", A[r][c])
 		}
 		fmt.Println("")
 	}
@@ -115,7 +115,7 @@ Swap two rows.
 */
 func (s *Sudoku) swapRow(row1 int, row2 int) {
 	fmt.Println("Swap row: ", row1, "with ", row2)
-	s.a[row1], s.a[row2] = s.a[row2], s.a[row1]
+	s.A[row1], s.A[row2] = s.A[row2], s.A[row1]
 }
 
 /*
@@ -124,7 +124,7 @@ Swap two colmns
 func (s *Sudoku) swapCol(c1 int, c2 int) {
 	fmt.Println("Swap col: ", c1, "with ", c2)
 	for i := 0; i < 9; i++{
-		s.a[i][c1], s.a[i][c2] = s.a[i][c2], s.a[i][c1]
+		s.A[i][c1], s.A[i][c2] = s.A[i][c2], s.A[i][c1]
 	}
 }
 
@@ -140,7 +140,7 @@ func (s *Sudoku) UniqueInBlock(blk [][]int, val int) bool {
 Checks wether the value will be unique in the column or not.
 */
 func (s *Sudoku) UniqueInCol(c int, val int) bool {
-	for _, r := range s.a{
+	for _, r := range s.A{
 		if val == r[c] {
 			return false
 		}
@@ -152,7 +152,7 @@ func (s *Sudoku) UniqueInCol(c int, val int) bool {
 Checks wether the value will be unique in the row or not.
 */
 func (s *Sudoku) UniqueInRow(r int, val int) bool {
-		return slices.Contains(s.a[r][:], val)
+		return slices.Contains(s.A[r][:], val)
 }
 
 /*

@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <style>
+            colgroup, tbody { border: solid medium; }
+            
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+            productList();
+            })
+
+            function edit(el) {
+                el.childNodes[0].removeAttribute("disabled");
+                el.childNodes[0].focus();
+                 window.getSelection().removeAllRanges();
+            }
+  
+            function disable(el) {
+                el.setAttribute("disabled","");
+            }   
+            
+            function productList() {
+                $.ajax({
+                url: '/sudoku/api/v1/gen',
+                type: 'GET',
+                dataType: 'json',
+                success: function (products) {
+                    productListSuccess(products);
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+                });
+            }
+
+            function productListSuccess(data) {
+                // Iterate over the collection of data
+                addRows(data)
+            }
+
+            function addRows(data) {
+                /*if ($("#sudoku_table tbody").length == 0) {
+                    $("#sudoku_table").append("<tbody></tbody>");
+                }*/
+                // Append row to <table>
+                $("#sudoku_table ").append(buildTableRow(data['puzzle']));
+            }
+
+            function buildTableRow(data) {    
+                console.log("building table")
+                console.log(data)            
+                var r = 
+                    "<tbody>"+
+                        "<tr>"+mytd(data[0][0])+mytd(data[0][1])+mytd(data[0][2])+mytd(data[0][3])+mytd(data[0][4])+mytd(data[0][5])+mytd(data[0][6])+mytd(data[0][7])+mytd(data[0][8])+"</tr>"+                       
+                        "<tr>"+mytd(data[1][0])+mytd(data[1][1])+mytd(data[1][2])+mytd(data[1][3])+mytd(data[1][4])+mytd(data[1][5])+mytd(data[1][6])+mytd(data[1][7])+mytd(data[1][8])+"</tr>"+
+                        "<tr>"+mytd(data[2][0])+mytd(data[2][1])+mytd(data[2][2])+mytd(data[2][3])+mytd(data[2][4])+mytd(data[2][5])+mytd(data[2][6])+mytd(data[2][7])+mytd(data[2][8])+"</tr>"+
+                    "</tbody><tbody>"+
+                        "<tr>"+mytd(data[3][0])+mytd(data[3][1])+mytd(data[3][2])+mytd(data[3][3])+mytd(data[3][4])+mytd(data[3][5])+mytd(data[3][6])+mytd(data[3][7])+mytd(data[3][8])+"</tr>"+                      
+                        "<tr>"+mytd(data[4][0])+mytd(data[4][1])+mytd(data[4][2])+mytd(data[4][3])+mytd(data[4][4])+mytd(data[4][5])+mytd(data[4][6])+mytd(data[4][7])+mytd(data[4][8])+"</tr>"+
+                        "<tr>"+mytd(data[5][0])+mytd(data[5][1])+mytd(data[5][2])+mytd(data[5][3])+mytd(data[5][4])+mytd(data[5][5])+mytd(data[5][6])+mytd(data[5][7])+mytd(data[5][8])+"</tr>"+
+                    "</tbody><tbody>"+
+                        "<tr>"+mytd(data[6][0])+mytd(data[6][1])+mytd(data[6][2])+mytd(data[6][3])+mytd(data[6][4])+mytd(data[6][5])+mytd(data[6][6])+mytd(data[6][7])+mytd(data[6][8])+"</tr>"+                       
+                        "<tr>"+mytd(data[7][0])+mytd(data[7][1])+mytd(data[7][2])+mytd(data[7][3])+mytd(data[7][4])+mytd(data[7][5])+mytd(data[7][6])+mytd(data[7][7])+mytd(data[7][8])+"</tr>"+
+                        "<tr>"+mytd(data[8][0])+mytd(data[8][1])+mytd(data[8][2])+mytd(data[8][3])+mytd(data[8][4])+mytd(data[8][5])+mytd(data[8][6])+mytd(data[8][7])+mytd(data[8][8])+"</tr>"+
+                    "</tbody>"       
+                            
+                return r     
+            }
+            function mytd(val) {
+                return "<td ondblclick=edit(this)><input value="+val+" disabled onblur=disable(this) maxlength=1>"+"</td>"
+            }
+
+        </script> 
+        
+    </head>
+    <body>
+        <table id="sudoku_table" class="table" border>
+            
+            
+        </table>
+        
+    </body>
+</html>
