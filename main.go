@@ -13,6 +13,6 @@ func main() {
 	router.GET("/", controller.Home)
 	router.GET("/sudoku/api/v1/gen", controller.Create)
 	fmt.Println("Starting server at localhost:8080")
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
 	
 }

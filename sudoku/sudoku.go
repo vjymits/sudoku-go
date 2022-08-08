@@ -114,7 +114,7 @@ func printMat(A [9][9]int) {
 Swap two rows.
 */
 func (s *Sudoku) swapRow(row1 int, row2 int) {
-	fmt.Println("Swap row: ", row1, "with ", row2)
+	
 	s.A[row1], s.A[row2] = s.A[row2], s.A[row1]
 }
 
@@ -122,7 +122,7 @@ func (s *Sudoku) swapRow(row1 int, row2 int) {
 Swap two colmns
 */
 func (s *Sudoku) swapCol(c1 int, c2 int) {
-	fmt.Println("Swap col: ", c1, "with ", c2)
+	
 	for i := 0; i < 9; i++{
 		s.A[i][c1], s.A[i][c2] = s.A[i][c2], s.A[i][c1]
 	}
